@@ -44,7 +44,7 @@ int addData(Entry *p[], int count) {
     }
 
     printf("> 데이터가 저장되었습니다.\n")
-
+    
     return count + 1;
 }
 
@@ -98,11 +98,12 @@ void updateData(Entry *p[]) {
 }
 
 int deleteData(Entry *p[], int count) {
-
+    p[count]->money=-1;
+    return 1;
 }
 
 void searchData(Entry *p[], int count) {
-
+    
 }
 
 void analyzeData(Entry *p[], int count) {
