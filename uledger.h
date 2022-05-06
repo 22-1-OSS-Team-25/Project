@@ -1,9 +1,3 @@
-/*
-2022-1 OSS Team 25
-
-
-*/
-
 #ifndef ULEDGER_H
 #define ULEDGER_H
 
