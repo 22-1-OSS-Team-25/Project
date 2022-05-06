@@ -153,3 +153,30 @@ void analyzeData(Entry *p[], int count) {
     printf("기타: %f  지출: %d\n",percentage[6],sum[6]);
     printf("전체 지출: %d",sumall);
 }
+int loadData(Entry *p[]) {
+    int i=0;
+    FILE *fp;
+    fp=fopen("uledger.txt","rt");
+    for(;i<100;i++){
+        if(feof(fp)) break;
+        fscanf(fp,"%d %d",p[i]->isIncome,p[i]->category);
+        fscanf(fp,"%d %d %d", p[i]->date[0], p[i]->date[1], p[i]->date[2]);
+        fscanf(fp,"%[^\n]s",p[i]->memo);
+    }
+    fclose(fp);
+    printf("> 로딩성공!");
+    return i;
+}
+
+void saveData(Entry *p[], int count) {
+    FILE *fp;
+    fp=fopen("uledger.txt","wt");
+    for(int i=0;i<count;i++){
+        if(p[i]->money=-1) continue;
+        fprintf(fp,"%d %d",p[i]->isIncome,p[i]->category);
+        fprintf(fp,"%d %d %d %d ", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money);
+        fprintf(fp, "%s\n",p[i]->memo);
+    }
+    fclose(fp);
+    printf("> 저장됨!");
+}
