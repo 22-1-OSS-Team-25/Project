@@ -61,7 +61,6 @@ void printData(Entry *p[], int count) {
         else printf("\n");
     }
     printf("=================================================="\n)
-
 }
 
 void printByCategory(Entry *p[], int count, int category) {
