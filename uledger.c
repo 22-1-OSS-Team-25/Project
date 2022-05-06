@@ -103,7 +103,18 @@ int deleteData(Entry *p[], int count) {
 }
 
 void searchData(Entry *p[], int count) {
-    
+    int scnt=0;
+    int search;
+    printf("지출 / 수입 데이터 (0: 지출, 1: 수입):");
+    for (int i= 0 ; i < count; i++){
+        if(p[i]->money==-1)continue;
+        if(p[i]->isIncome==search){
+            printf("%2d",i+1);
+            printData(p[i],count);
+            scnt++;
+        }
+     }
+     if(scnt==0) printf("> 검색된 데이터가 없습니다!\n");
 }
 
 void analyzeData(Entry *p[], int count) {
