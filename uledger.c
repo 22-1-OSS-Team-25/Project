@@ -50,9 +50,10 @@ int addData(Entry *p[], int count) {
 
 void printData(Entry *p[], int count) {
     printf("==< 전체 데이터 출력 >============================\n");
-    printf("수입/지출\t날짜\t금액\t카테고리\n");
+    printf("번호\t수입/지출\t날짜\t금액\t카테고리\n");
     printf("==================================================\n");
     for(int i = 0; i < count; i++) {
+        printf("%d ", i + 1);
         if(p[i]->isIncome == 0) printf("- ");
         else printf("+ ");
         printf("%d/%d/%d %d ", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money);
@@ -65,11 +66,12 @@ void printData(Entry *p[], int count) {
 
 void printByCategory(Entry *p[], int count, int category) {
     printf("==< 카테고리별 데이터 출력 >======================\n");
-    printf("수입/지출\t날짜\t금액\t카테고리\n");
+    printf("번호\t수입/지출\t날짜\t금액\t카테고리\n");
     printf("==================================================\n");
     for(int i = 0; i < count; i++) {
         if(p[i]->category == category) {
-            printf("- %d/%d/%d %d %s\n", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money, categoryList[p[i]->category]);
+            
+            printf("%d - %d/%d/%d %d %s\n", i + 1, p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money, categoryList[p[i]->category]);
         }
     }
     printf("=================================================="\n)
@@ -77,10 +79,11 @@ void printByCategory(Entry *p[], int count, int category) {
 
 void printByDate(Entry *p[], int count, int date[]) {
     printf("==< 날짜 별 데이터 출력 >=========================\n");
-    printf("수입/지출\t날짜\t금액\t카테고리\n");
+    printf("번호\t수입/지출\t날짜\t금액\t카테고리\n");
     printf("==================================================\n");
     for(int i = 0; i < count; i++) {
         if(p[i]->date == date) {
+            printf("%d ", i + 1);
             if(p[i]->isIncome == 0) printf("- ");
             else printf("+ ");
             printf("%d/%d/%d %d ", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money);
