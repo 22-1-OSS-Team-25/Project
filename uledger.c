@@ -43,7 +43,7 @@ int addData(Entry *p[], int count) {
         scanf("%[^\n]s", p[count]->memo);
     }
 
-    printf("> 데이터가 저장되었습니다.\n")
+    printf("> 데이터가 저장되었습니다.\n");
     
     return count + 1;
 }
@@ -60,8 +60,8 @@ void printData(Entry *p[], int count) {
         if(p[i]->isIncome == 0) printf("%s\n", categoryList[p[i]->category]);
         else printf("\n");
     }
-    printf("=================================================="\n)
-}
+    printf("=================================================="\n);
+} //메모를 출력할 필요가 있을 것 같다!!
 
 void printByCategory(Entry *p[], int count, int category) {
     printf("==< 카테고리별 데이터 출력 >======================\n");
@@ -94,7 +94,6 @@ void printByDate(Entry *p[], int count, int date[]) {
 }
 
 void updateData(Entry *p[]) {
-
 }
 
 int deleteData(Entry *p[], int count) {
@@ -118,13 +117,39 @@ void searchData(Entry *p[], int count) {
 }
 
 void analyzeData(Entry *p[], int count) {
+    int sum[7]=0;
+    int sumall=0;
+    double percentage[7];
+    for(int i=0;i<count;i++){
+        if(p[i]->category==-1)continue;
+        if(p[i]->category==0)
+            sum[0]+= p[i]->money;
+        else if(p[i]->category==1)
+            sum[1]+= p[i]->money;
+        else if(p[i]->category==2)
+            sum[2]+= p[i]->money;
+        else if(p[i]->category==3)
+            sum[3]+= p[i]->money;
+        else if(p[i]->category==4)
+            sum[4]+= p[i]->money;
+        else if(p[i]->category==5)
+            sum[5]+= p[i]->money;
+        else if(p[i]->category==6)
+            sum[6]+= p[i]->money;
 
-}
+        sumall+= p[i]->money;
+    }// 각 카테고리별 sum 계산 + 전체 sum 계산
 
-int loadData(Entry *p[]) {
-
-}
-
-void saveData(Entry *p[], int count) {
-
+    for(int i=0;i<7;i++){
+        percentage[i]=sum[i]/sumall;
+    }//각 카테고리 별 퍼센티지 계산
+    printf("> 카테고리 퍼센티지 (0: 이체, 1: 교통, 2: 식비, 3: 쇼핑, 4: 여가, 5: 교육, 6: 기타)\n");
+    printf("이체: %f  지출: %d\n",percentage[0],sum[0]);
+    printf("교통: %f  지출: %d\n",percentage[1],sum[1]);
+    printf("식비: %f  지출: %d\n",percentage[2],sum[2]);
+    printf("쇼핑: %f  지출: %d\n",percentage[3],sum[3]);
+    printf("여가: %f  지출: %d\n",percentage[4],sum[4]);
+    printf("교육: %f  지출: %d\n",percentage[5],sum[5]);
+    printf("기타: %f  지출: %d\n",percentage[6],sum[6]);
+    printf("전체 지출: %d",sumall);
 }
