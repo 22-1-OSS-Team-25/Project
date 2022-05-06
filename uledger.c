@@ -1,5 +1,7 @@
 #include "uledger.h"
 
+ char categoryList[7][10] = [["이체"], ["교통"], ["식비"], ["쇼핑"], ["여가"], ["교육"], ["기타"]];
+
 int mainMenu() {
     int choice;
     printf("\n==< ULedger >=======\n");
@@ -33,7 +35,7 @@ int addData(Entry *p[], int count) {
     else p[count]->category = -1;
 
     int choice;
-    printf("> 메모를 입력하실래요? (0: 예, 1: 아니오): ");
+    printf("> 메모를 입력할까요? (0: 예, 1: 아니오): ");
     scanf("%d", &choice);
 
     if(choice == 0) {
@@ -47,15 +49,46 @@ int addData(Entry *p[], int count) {
 }
 
 void printData(Entry *p[], int count) {
+    printf("==< 전체 데이터 출력 >============================\n");
+    printf("수입/지출\t날짜\t금액\t카테고리\n");
+    printf("==================================================\n");
+    for(int i = 0; i < count; i++) {
+        if(p[i]->isIncome == 0) printf("- ");
+        else printf("+ ");
+        printf("%d/%d/%d %d ", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money);
+        if(p[i]->isIncome == 0) printf("%s\n", categoryList[p[i]->category]);
+        else printf("\n");
+    }
+    printf("=================================================="\n)
 
 }
 
 void printByCategory(Entry *p[], int count, int category) {
-
+    printf("==< 카테고리별 데이터 출력 >======================\n");
+    printf("수입/지출\t날짜\t금액\t카테고리\n");
+    printf("==================================================\n");
+    for(int i = 0; i < count; i++) {
+        if(p[i]->category == category) {
+            printf("- %d/%d/%d %d %s\n", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money, categoryList[p[i]->category]);
+        }
+    }
+    printf("=================================================="\n)
 }
 
 void printByDate(Entry *p[], int count, int date[]) {
-
+    printf("==< 날짜 별 데이터 출력 >=========================\n");
+    printf("수입/지출\t날짜\t금액\t카테고리\n");
+    printf("==================================================\n");
+    for(int i = 0; i < count; i++) {
+        if(p[i]->date == date) {
+            if(p[i]->isIncome == 0) printf("- ");
+            else printf("+ ");
+            printf("%d/%d/%d %d ", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money);
+            if(p[i]->isIncome == 0) printf("%s\n", categoryList[p[i]->category]);
+            else printf("\n");
+        }
+    }
+    printf("=================================================="\n)
 }
 
 void updateData(Entry *p[]) {
