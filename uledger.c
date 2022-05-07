@@ -103,11 +103,11 @@ int deleteData(Entry *p[], int count) {
 
 void searchData(Entry *p[], int count) {
     int scnt=0;
-    int search;
+    int search=100000;
     printf("지출 / 수입 데이터 (0: 지출, 1: 수입):");
     for (int i= 0 ; i < count; i++){
         if(p[i]->money==-1)continue;
-        if(p[i]->isIncome==search){
+        if(p[i]->money==search){
             printf("%2d",i+1);
             printData(p[i],count);
             scnt++;
