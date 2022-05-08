@@ -5,7 +5,7 @@
 int mainMenu() {
     getchar();
     int choice;
-    printf("\n==< ULedger >=======\n");
+    printf("\n====< ULedger >====\n");
     printf("1. 데이터 추가\n");
     printf("2. 데이터 출력\n");
     printf("3. 데이터 수정\n");
@@ -69,6 +69,8 @@ void printData(Entry *p[], int count) {
         else printf("\n");
     }
     printf("==================================================\n");
+
+    analyzeData(p, count);
 }
 
 void printByCategory(Entry *p[], int count, int category) {
@@ -101,7 +103,37 @@ void printByDate(Entry *p[], int count, int date[]) {
 }
 
 void updateData(Entry *p[], int count) {
+    printData(p, count);
+    int num;
+    printf("> 수정할 데이터의 번호를 입력하세요: ");
+    scanf("%d", &num);
+    num--;
+    getchar();
 
+    printf("> 날짜를 입력하세요 (YYYY MM DD): ");
+    scanf("%d %d %d", &p[num]->date[0], &p[num]->date[1], &p[num]->date[2]);
+    getchar();
+
+    printf("> 금액을 입력하세요: ");
+    scanf("%d", &p[num]->money);
+    getchar();
+
+    printf("> 카테고리를 입력하세요:\n (0: 이체, 1: 교통, 2: 식비, 3: 쇼핑, 4: 여가, 5: 교육, 6: 기타)\n");
+    scanf("%d", &p[num]->category);
+    getchar();
+
+    int choice;
+    printf("> 메모를 입력할까요? (0: 예, 1: 아니오): ");
+    scanf("%d", &choice);
+    getchar();
+
+    if(choice == 0) {
+        printf("> 메모를 입력하세요 (최대 100자):\n");
+        scanf("%[^\n]s", p[num]->memo);
+        getchar();
+    }
+
+    printf("> 데이터가 수정되었습니다.\n");
 }
 
 int deleteData(Entry *p[], int count) {
@@ -163,28 +195,30 @@ void analyzeData(Entry *p[], int count) {
 }
 int loadData(Entry *p[]) {
     int i=0;
-    FILE *fp;
-    fp=fopen("uledger.txt","rt");
+    FILE *fp = fopen("uledger.txt","rt");
+
     for(;i<100;i++){
         if(feof(fp)) break;
         fscanf(fp,"%d %d",p[i]->isIncome,p[i]->category);
         fscanf(fp,"%d %d %d", p[i]->date[0], p[i]->date[1], p[i]->date[2]);
         fscanf(fp,"%[^\n]s",p[i]->memo);
     }
+    
     fclose(fp);
     printf("> 로딩성공!");
     return i;
 }
 
 void saveData(Entry *p[], int count) {
-    FILE *fp;
-    fp=fopen("uledger.txt","wt");
+    FILE *fp = fopen("uledger.txt","wt");
+
     for(int i=0;i<count;i++){
         if(p[i]->money=-1) continue;
         fprintf(fp,"%d %d",p[i]->isIncome,p[i]->category);
         fprintf(fp,"%d %d %d %d ", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money);
         fprintf(fp, "%s\n",p[i]->memo);
     }
+
     fclose(fp);
     printf("> 저장됨!");
 }
