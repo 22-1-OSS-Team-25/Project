@@ -9,10 +9,10 @@ OBJECTS = main.c uledger.c
 all : $(TARGET) $(DTARGET)
 
 $(TARGET) : $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^
 
 $(DTARGET) : $(OBJECTS)
-	$(CC) $(CFLAGS) -DDEBUG -o $(DTARGET) $(OBJECTS)
+	$(CC) $(CFLAGS) -DDEBUG -o $@ $^
 
 clean :
 	rm -f $(TARGET) $(DTARGET)
