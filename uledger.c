@@ -5,14 +5,16 @@
 int mainMenu() {
     getchar();
     int choice;
-    printf("\n====< ULedger >====\n");
+    printf("\n=====< ULedger >=====\n");
     printf("1. 데이터 추가\n");
     printf("2. 데이터 출력\n");
     printf("3. 데이터 수정\n");
     printf("4. 데이터 삭제\n");
     printf("5. 데이터 검색\n");
     printf("6. 데이터 저장\n");
+    printf("0. 종료\n\n");
 
+    printf("> 메뉴 선택: ");
     scanf("%d", &choice);
     getchar();
     return choice;

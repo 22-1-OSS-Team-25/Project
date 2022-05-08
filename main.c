@@ -1,11 +1,17 @@
 #include "uledger.h"
 
 int main() {
+    #ifdef DEBUG
+    printf("ULedger > Debug Mode\n");
+    #endif
     Entry ledger[100];
     int count = loadData(ledger);
 
     while(1) {
         int choice = mainMenu();
+        #ifdef DEBUG
+        printf("ULedger > mainMenu() > return = %d\n", choice);
+        #endif
         if(choice == 1) {
             count = addData(ledger, count);
         }
@@ -43,6 +49,20 @@ int main() {
         }
         else if(choice == 6) {
             saveData(ledger, count);
+        }
+        else if(choice == 0) {
+            #ifdef DEBUG
+            printf("ULedger > Exit\n");
+            printf("ULedger > Exit > Freeing Memory\n");
+            #endif
+            free(ledger);
+            #ifdef DEBUG
+            printf("ULedger > Exit > Memory Freed\n");
+            #endif
+            printf("> 종료!\n");
+            
+            
+
         }
     }
 }
