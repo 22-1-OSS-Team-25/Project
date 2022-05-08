@@ -137,8 +137,18 @@ void updateData(Entry *p[], int count) {
 }
 
 int deleteData(Entry *p[], int count) {
-    p[count]->money=-1;
-    return 1;
+    printData(p, count);
+    int num;
+    printf("> 삭제할 데이터의 번호를 입력하세요: ");
+    scanf("%d", &num);
+
+    for(int i = num; i < count - 1; i++) {
+        p[i] = p[i + 1];
+    }
+
+    printf("> 데이터가 삭제되었습니다.\n");
+
+    return count - 1;
 }
 
 void searchData(Entry *p[], int count) {
@@ -157,8 +167,8 @@ void searchData(Entry *p[], int count) {
 }
 
 void analyzeData(Entry *p[], int count) {
-    int sum[7]=0;
-    int sumall=0;
+    int sum[7] = {0};
+    int sumall = 0;
     double percentage[7];
     for(int i=0;i<count;i++){
         if(p[i]->category==-1)continue;
@@ -194,29 +204,27 @@ void analyzeData(Entry *p[], int count) {
     printf("전체 지출: %d",sumall);
 }
 int loadData(Entry *p[]) {
-    int i=0;
+    int count = 0;
     FILE *fp = fopen("uledger.txt","rt");
 
-    for(;i<100;i++){
-        if(feof(fp)) break;
-        fscanf(fp,"%d %d",p[i]->isIncome,p[i]->category);
-        fscanf(fp,"%d %d %d", p[i]->date[0], p[i]->date[1], p[i]->date[2]);
-        fscanf(fp,"%[^\n]s",p[i]->memo);
+    while(!feof(fp)) {
+        int ret = 0;
+        ret += fscanf(fp,"%d %d %d %d %d %d", &p[i]->date[0], &p[i]->date[1], &p[i]->date[2], &p[i]->isIncome, &p[i]->money, &p[i]->category);
+        ret += fscanf(fp,"%[^\n]s",p[i]->memo);
+        if(ret == 7) count++;
     }
-    
-    fclose(fp);
+
     printf("> 로딩성공!");
-    return i;
+    fclose(fp);
+    return count
 }
 
 void saveData(Entry *p[], int count) {
     FILE *fp = fopen("uledger.txt","wt");
 
-    for(int i=0;i<count;i++){
-        if(p[i]->money=-1) continue;
-        fprintf(fp,"%d %d",p[i]->isIncome,p[i]->category);
-        fprintf(fp,"%d %d %d %d ", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money);
-        fprintf(fp, "%s\n",p[i]->memo);
+    for(int i = 0; i < count; i++) {
+        fprintf(fp, "%d %d %d %d %d %d\n", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->isIncome, p[i]->money, p[i]->category);
+        fprintf(fp, "%s\n", p[i]->memo);
     }
 
     fclose(fp);
