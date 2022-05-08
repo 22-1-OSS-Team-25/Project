@@ -1,3 +1,5 @@
+.DS_Store
+.vscode/
 *.o
-Uledger
-Uledger_debug
+uledger
+uledger_debug
