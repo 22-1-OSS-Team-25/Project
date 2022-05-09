@@ -128,14 +128,14 @@ void printByCategory(Entry *p[], int count, int category) {
     printf("==================================================\n");
 }
 
-void printByDate(Entry *p[], int count, int date[]) {
+void printByDate(Entry *p[], int count, int date[3]) {
     int in = 0;
     int out = 0;
     printf("==< 날짜 별 데이터 출력 >=========================\n");
     printf("번호\t+/-\t날짜\t금액\t카테고리\n");
     printf("==================================================\n");
     for(int i = 0; i < count; i++) {
-        if(p[i]->date == date) {
+        if(p[i]->date[0] == date[0] && p[i]->date[1] == date[1] && p[i]->date[2] == date[2]) {
             printf("%d\t", i + 1);
             if(p[i]->isIncome == 1) {
                 printf("-\t");
@@ -171,10 +171,12 @@ void updateData(Entry *p[], int count) {
     printf("> 금액을 입력하세요: ");
     scanf("%d", &p[num]->money);
     getchar();
-
-    printf("> 카테고리를 입력하세요 (0: 이체, 1: 교통, 2: 식비, 3: 쇼핑, 4: 여가, 5: 교육, 6: 기타): ");
-    scanf("%d", &p[num]->category);
-    getchar();
+    
+    if(p[num]->isIncome == 1) {
+        printf("> 카테고리를 입력하세요 (0: 이체, 1: 교통, 2: 식비, 3: 쇼핑, 4: 여가, 5: 교육, 6: 기타): ");
+        scanf("%d", &p[num]->category);
+        getchar();
+    }
 
     int choice;
     printf("> 메모를 입력할까요? (1: 예, 2: 아니오): ");
