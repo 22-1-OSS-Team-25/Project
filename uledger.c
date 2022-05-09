@@ -1,18 +1,22 @@
 #include "uledger.h"
 
- char categoryList[7][10] = [["이체"], ["교통"], ["식비"], ["쇼핑"], ["여가"], ["교육"], ["기타"]];
+ char categoryList[7][10] = {{"이체"}, {"교통"}, {"식비"}, {"쇼핑"}, {"여가"}, {"교육"}, {"기타"}};
 
 int mainMenu() {
+    getchar();
     int choice;
-    printf("\n==< ULedger >=======\n");
+    printf("\n=====< ULedger >=====\n");
     printf("1. 데이터 추가\n");
     printf("2. 데이터 출력\n");
     printf("3. 데이터 수정\n");
     printf("4. 데이터 삭제\n");
     printf("5. 데이터 검색\n");
     printf("6. 데이터 저장\n");
+    printf("0. 종료\n\n");
 
+    printf("> 메뉴 선택: ");
     scanf("%d", &choice);
+    getchar();
     return choice;
 }
 
@@ -20,31 +24,37 @@ int addData(Entry *p[], int count) {
     p[count] = (Entry *)malloc(sizeof(Entry));
 
     printf("> 날짜를 입력하세요 (YYYY MM DD): ");
-    scanf("%d %d %d", p[count]->date[0], p[count]->date[1], p[count]->date[2]);
+    scanf("%d %d %d", &p[count]->date[0], &p[count]->date[1], &p[count]->date[2]);
+    getchar();
 
     printf("> 지출 / 수입 여부 (0: 지출, 1: 수입): ");
     scanf("%d", &p[count]->isIncome);
+    getchar();
 
     printf("> 금액을 입력하세요: ");
     scanf("%d", &p[count]->money);
+    getchar();
 
     if(p[count]->isIncome == 0) {
         printf("> 카테고리를 선택하세요:\n (0: 이체, 1: 교통, 2: 식비, 3: 쇼핑, 4: 여가, 5: 교육, 6: 기타)\n");
         scanf("%d", &p[count]->category);
+        getchar();
     }
     else p[count]->category = -1;
 
     int choice;
     printf("> 메모를 입력할까요? (0: 예, 1: 아니오): ");
     scanf("%d", &choice);
+    getchar();
 
     if(choice == 0) {
         printf("> 메모를 입력하세요 (최대 100자):\n");
         scanf("%[^\n]s", p[count]->memo);
+        getchar();
     }
 
     printf("> 데이터가 저장되었습니다.\n");
-    
+
     return count + 1;
 }
 
@@ -60,8 +70,10 @@ void printData(Entry *p[], int count) {
         if(p[i]->isIncome == 0) printf("%s\n", categoryList[p[i]->category]);
         else printf("\n");
     }
-    printf("=================================================="\n);
-} //메모를 출력할 필요가 있을 것 같다!!
+    printf("==================================================\n");
+
+    analyzeData(p, count);
+}
 
 void printByCategory(Entry *p[], int count, int category) {
     printf("==< 카테고리별 데이터 출력 >======================\n");
@@ -69,11 +81,10 @@ void printByCategory(Entry *p[], int count, int category) {
     printf("==================================================\n");
     for(int i = 0; i < count; i++) {
         if(p[i]->category == category) {
-            
             printf("%d - %d/%d/%d %d %s\n", i + 1, p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money, categoryList[p[i]->category]);
         }
     }
-    printf("=================================================="\n)
+    printf("==================================================\n");
 }
 
 void printByDate(Entry *p[], int count, int date[]) {
@@ -90,15 +101,56 @@ void printByDate(Entry *p[], int count, int date[]) {
             else printf("\n");
         }
     }
-    printf("=================================================="\n)
+    printf("==================================================\n");
 }
 
-void updateData(Entry *p[]) {
+void updateData(Entry *p[], int count) {
+    printData(p, count);
+    int num;
+    printf("> 수정할 데이터의 번호를 입력하세요: ");
+    scanf("%d", &num);
+    num--;
+    getchar();
+
+    printf("> 날짜를 입력하세요 (YYYY MM DD): ");
+    scanf("%d %d %d", &p[num]->date[0], &p[num]->date[1], &p[num]->date[2]);
+    getchar();
+
+    printf("> 금액을 입력하세요: ");
+    scanf("%d", &p[num]->money);
+    getchar();
+
+    printf("> 카테고리를 입력하세요:\n (0: 이체, 1: 교통, 2: 식비, 3: 쇼핑, 4: 여가, 5: 교육, 6: 기타)\n");
+    scanf("%d", &p[num]->category);
+    getchar();
+
+    int choice;
+    printf("> 메모를 입력할까요? (0: 예, 1: 아니오): ");
+    scanf("%d", &choice);
+    getchar();
+
+    if(choice == 0) {
+        printf("> 메모를 입력하세요 (최대 100자):\n");
+        scanf("%[^\n]s", p[num]->memo);
+        getchar();
+    }
+
+    printf("> 데이터가 수정되었습니다.\n");
 }
 
 int deleteData(Entry *p[], int count) {
-    p[count]->money=-1;
-    return 1;
+    printData(p, count);
+    int num;
+    printf("> 삭제할 데이터의 번호를 입력하세요: ");
+    scanf("%d", &num);
+
+    for(int i = num; i < count - 1; i++) {
+        p[i] = p[i + 1];
+    }
+
+    printf("> 데이터가 삭제되었습니다.\n");
+
+    return count - 1;
 }
 
 void searchData(Entry *p[], int count) {
@@ -117,8 +169,8 @@ void searchData(Entry *p[], int count) {
 }
 
 void analyzeData(Entry *p[], int count) {
-    int sum[7]=0;
-    int sumall=0;
+    int sum[7] = {0};
+    int sumall = 0;
     double percentage[7];
     for(int i=0;i<count;i++){
         if(p[i]->category==-1)continue;
@@ -154,29 +206,29 @@ void analyzeData(Entry *p[], int count) {
     printf("전체 지출: %d",sumall);
 }
 int loadData(Entry *p[]) {
-    int i=0;
-    FILE *fp;
-    fp=fopen("uledger.txt","rt");
-    for(;i<100;i++){
-        if(feof(fp)) break;
-        fscanf(fp,"%d %d",p[i]->isIncome,p[i]->category);
-        fscanf(fp,"%d %d %d", p[i]->date[0], p[i]->date[1], p[i]->date[2]);
-        fscanf(fp,"%[^\n]s",p[i]->memo);
+    int count = 0;
+    FILE *fp = fopen("uledger.txt","rt");
+
+    while(!feof(fp)) {
+        int ret = 0;
+        ret += fscanf(fp,"%d %d %d %d %d %d", &p[count ]->date[0], &p[count]->date[1], &p[count]->date[2], &p[count]->isIncome, &p[count]->money, &p[count]->category);
+        ret += fscanf(fp,"%[^\n]s",p[count]->memo);
+        if(ret == 7) count++;
     }
-    fclose(fp);
+
     printf("> 로딩성공!");
-    return i;
+    fclose(fp);
+    return count;
 }
 
 void saveData(Entry *p[], int count) {
-    FILE *fp;
-    fp=fopen("uledger.txt","wt");
-    for(int i=0;i<count;i++){
-        if(p[i]->money=-1) continue;
-        fprintf(fp,"%d %d",p[i]->isIncome,p[i]->category);
-        fprintf(fp,"%d %d %d %d ", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money);
-        fprintf(fp, "%s\n",p[i]->memo);
+    FILE *fp = fopen("uledger.txt","wt");
+
+    for(int i = 0; i < count; i++) {
+        fprintf(fp, "%d %d %d %d %d %d\n", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->isIncome, p[i]->money, p[i]->category);
+        fprintf(fp, "%s\n", p[i]->memo);
     }
+
     fclose(fp);
     printf("> 저장됨!");
 }
