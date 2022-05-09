@@ -163,7 +163,7 @@ void searchData(Entry *p[], int count) {
             printf("%2d",i+1);
             printData(p[i],count);
             scnt++;
-        }
+    
      }
      if(scnt==0) printf("> 검색된 데이터가 없습니다!\n");
 }
@@ -205,11 +205,12 @@ int loadData(Entry *p[]) {
         int ret = fscanf(fp,"%d %d %d %d %d %d %[^\n]s", &p[count]->date[0], &p[count]->date[1], &p[count]->date[2], &p[count]->isIncome, &p[count]->money, &p[count]->category, p[count]->memo);
         if(ret < 7) continue;
         count++;
+
     }
 
     printf("> 로딩성공!");
     fclose(fp);
-    return count
+    return count;
 }
 
 void saveData(Entry *p[], int count) {
