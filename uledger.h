@@ -18,7 +18,7 @@ int addData(Entry *p[], int count);
 void printData(Entry *p[], int count);                      // 전체 데이터 출력
 void printByCategory(Entry *p[], int count, int category);  // 카테고리별 데이터 출력
 void printByDate(Entry *p[], int count, int date[]);        // 날짜 별 데이터 출력
-void updateData(Entry *p[]);
+void updateData(Entry *p[], int count);
 int deleteData(Entry *p[], int count);
 void searchData(Entry *p[], int count);
 void analyzeData(Entry *p[], int count);                    // printData()와 함께 실행
