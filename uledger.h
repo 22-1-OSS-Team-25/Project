@@ -7,7 +7,7 @@
 
 typedef struct {
     int date[3]; // 0: year, 1: month, 2: day
-    int isIncome; // 0: False, 1: True
+    int isIncome; // 1: False, 2: True
     int money;
     int category;
     char memo[100];
@@ -21,7 +21,6 @@ void printByDate(Entry *p[], int count, int date[]);        // 날짜 별 데이
 void updateData(Entry *p[], int count);
 int deleteData(Entry *p[], int count);
 void searchData(Entry *p[], int count);
-void analyzeData(Entry *p[], int count);                    // printData()와 함께 실행
 int loadData(Entry *p[]);
 void saveData(Entry *p[], int count);
 

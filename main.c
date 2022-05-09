@@ -51,13 +51,8 @@ int main() {
             saveData(ledger, count);
         }
         else if(choice == 0) {
-            #ifdef DEBUG
-            printf("ULedger > Exit\n");
-            #endif
             printf("> 종료!\n");
-            
-            
-
+            break;
         }
     }
 }
