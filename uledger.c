@@ -211,14 +211,14 @@ int loadData(Entry *p[]) {
 
     while(!feof(fp)) {
         int ret = 0;
-        ret += fscanf(fp,"%d %d %d %d %d %d", &p[i]->date[0], &p[i]->date[1], &p[i]->date[2], &p[i]->isIncome, &p[i]->money, &p[i]->category);
-        ret += fscanf(fp,"%[^\n]s",p[i]->memo);
+        ret += fscanf(fp,"%d %d %d %d %d %d", &p[count ]->date[0], &p[count]->date[1], &p[count]->date[2], &p[count]->isIncome, &p[count]->money, &p[count]->category);
+        ret += fscanf(fp,"%[^\n]s",p[count]->memo);
         if(ret == 7) count++;
     }
 
     printf("> 로딩성공!");
     fclose(fp);
-    return count
+    return count;
 }
 
 void saveData(Entry *p[], int count) {
