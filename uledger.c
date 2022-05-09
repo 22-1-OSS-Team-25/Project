@@ -163,7 +163,7 @@ void searchData(Entry *p[], int count) {
             printf("%2d",i+1);
             printData(p[i],count);
             scnt++;
-        }
+    
      }
      if(scnt==0) printf("> 검색된 데이터가 없습니다!\n");
 }
