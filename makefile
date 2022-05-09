@@ -12,3 +12,4 @@ $(TARGET) : $(OBJECTS)
 clean :
 	rm -f $(TARGET)
 	rm -f *.o
+	rm -f $(TARGET).txt
