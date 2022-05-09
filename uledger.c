@@ -120,6 +120,7 @@ void printByCategory(Entry *p[], int count, int category) {
     for(int i = 0; i < count; i++) {
         if(p[i]->category == category) {
             printf("%d\t-\t%d/%d/%d\t%d\t%s\n", i + 1, p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->money, categoryList[p[i]->category]);
+            out += p[i]->money;
         }
     }
     printf("==================================================\n");
