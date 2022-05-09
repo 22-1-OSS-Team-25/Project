@@ -2,18 +2,13 @@ CC = gcc
 CFLAGS = -W -Wall
 
 TARGET = uledger
-DTARGET = uledger_debug
-
 OBJECTS = main.c uledger.c
 
-all : $(TARGET) $(DTARGET)
+all : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(DTARGET) : $(OBJECTS)
-	$(CC) $(CFLAGS) -DDEBUG -o $@ $^
-
 clean :
-	rm -f $(TARGET) $(DTARGET)
+	rm -f $(TARGET)
 	rm -f *.o
