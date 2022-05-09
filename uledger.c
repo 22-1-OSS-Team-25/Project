@@ -172,29 +172,19 @@ void analyzeData(Entry *p[], int count) {
     int sum[7] = {0};
     int sumall = 0;
     double percentage[7];
-    for(int i=0;i<count;i++){
-        if(p[i]->category==-1)continue;
-        if(p[i]->category==0)
-            sum[0]+= p[i]->money;
-        else if(p[i]->category==1)
-            sum[1]+= p[i]->money;
-        else if(p[i]->category==2)
-            sum[2]+= p[i]->money;
-        else if(p[i]->category==3)
-            sum[3]+= p[i]->money;
-        else if(p[i]->category==4)
-            sum[4]+= p[i]->money;
-        else if(p[i]->category==5)
-            sum[5]+= p[i]->money;
-        else if(p[i]->category==6)
-            sum[6]+= p[i]->money;
 
-        sumall+= p[i]->money;
-    }// 각 카테고리별 sum 계산 + 전체 sum 계산
-
-    for(int i=0;i<7;i++){
-        percentage[i]=sum[i]/sumall;
-    }//각 카테고리 별 퍼센티지 계산
+    for(int i = 0; i < count; i++) {
+        if(p[i]->category == -1) continue;
+        else sum[p[i]->category] += p[i]->money;
+        sumall += p[i]->money;
+    }
+    
+    // 각 카테고리별 sum 계산 + 전체 sum 계산
+    for(int i = 0; i < 7; i++) {
+        percentage[i] = sum[i] / sumall;
+    }
+    
+    //각 카테고리 별 퍼센티지 계산
     printf("> 카테고리 퍼센티지 (0: 이체, 1: 교통, 2: 식비, 3: 쇼핑, 4: 여가, 5: 교육, 6: 기타)\n");
     printf("이체: %f  지출: %d\n",percentage[0],sum[0]);
     printf("교통: %f  지출: %d\n",percentage[1],sum[1]);
@@ -205,15 +195,16 @@ void analyzeData(Entry *p[], int count) {
     printf("기타: %f  지출: %d\n",percentage[6],sum[6]);
     printf("전체 지출: %d",sumall);
 }
+
 int loadData(Entry *p[]) {
     int count = 0;
     FILE *fp = fopen("uledger.txt","rt");
 
     while(!feof(fp)) {
-        int ret = 0;
-        ret += fscanf(fp,"%d %d %d %d %d %d", &p[i]->date[0], &p[i]->date[1], &p[i]->date[2], &p[i]->isIncome, &p[i]->money, &p[i]->category);
-        ret += fscanf(fp,"%[^\n]s",p[i]->memo);
-        if(ret == 7) count++;
+        p[count] = (Entry *)malloc(sizeof(Entry));
+        int ret = fscanf(fp,"%d %d %d %d %d %d %[^\n]s", &p[count]->date[0], &p[count]->date[1], &p[count]->date[2], &p[count]->isIncome, &p[count]->money, &p[count]->category, p[count]->memo);
+        if(ret < 7) continue;
+        count++;
     }
 
     printf("> 로딩성공!");
@@ -225,8 +216,7 @@ void saveData(Entry *p[], int count) {
     FILE *fp = fopen("uledger.txt","wt");
 
     for(int i = 0; i < count; i++) {
-        fprintf(fp, "%d %d %d %d %d %d\n", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->isIncome, p[i]->money, p[i]->category);
-        fprintf(fp, "%s\n", p[i]->memo);
+        fprintf(fp, "%d %d %d %d %d %d %s\n", p[i]->date[0], p[i]->date[1], p[i]->date[2], p[i]->isIncome, p[i]->money, p[i]->category, p[i]->memo);
     }
 
     fclose(fp);
